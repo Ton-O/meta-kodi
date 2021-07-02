@@ -1,7 +1,7 @@
 { "name":"KODIPlayer",
    "manufacturer":"Tono",
    "type":"MEDIAPLAYER",
-   "version":14,
+   "version":16,
    "discover":{
      "welcomeheadertext":"Choose your KODI Instance",
      "welcomedescription":"powered by meta\nby JAC",
@@ -19,7 +19,7 @@
      "dynamicname": "DYNAMIK_INST_START DYNAMIK JSON.parse(\"$Result\").name DYNAMIK_INST_END",
      "dynamicid": "DYNAMIK_INST_START DYNAMIK JSON.parse(\"$Result\").fullname DYNAMIK_INST_END",
       "manufacturer": "Tono",
-      "version": 14,
+      "version": 16,
       "listeners" : {
          "KODIListener" : 
             {"type":"webSocket", "command":{"connection":"ws://$MyKODIIp:$RPCPort", "message": "message"}, "queryresult" : "",          
@@ -32,22 +32,29 @@
                   {"test":"DYNAMIK ( (\"$Result\" != \"\") && (JSON.parse(\"$Result\").method == \"Application.OnVolumeChanged\"))", "then":"__GetPlayerID", "or":""}
                ]
             },
-            "KODIInfo" : 
-               {"label":"",
-               "type":"http-get",
-               "command":"http://$MyKODIIp:$MyKODIPort/jsonrpc?request={\"jsonrpc\": \"2.0\", \"id\": \"Getinfi-items\",\"method\":\"XBMC.GetInfoLabels\",\"params\": {\"labels\":[\"Player.PlaySpeed\",\"Player.Title\",\"Player.FinishTime\", \"VideoPlayer.OriginalTitle\",\"VideoPlayer.Title\",\"VideoPlayer.TVShowTitle\",\"VideoPlayer.Time\",\"VideoPlayer.Duration\"]}}",
-               "queryresult":"$.",
-                                 "pooltime":"10000", "poolduration":"",
-               "evalwrite" : [ 
-                  {"variable" : "Player_Duration",     "value" : "DYNAMIK JSON.parse('$Result')[0].result[\"VideoPlayer.Duration\"]"},
-                  {"variable" : "Player_FinishTime",   "value" : "DYNAMIK JSON.parse(\"$Result\")[0].result[\"Player.FinishTime\"]"},
-                  {"variable" : "Player_Time",         "value" : "DYNAMIK JSON.parse(\"$Result\")[0].result[\"VideoPlayer.Time\"]"},
-                  {"variable" : "Player_OriginalTitle","value" : "DYNAMIK JSON.parse(\"$Result\")[0].result[\"VideoPlayer.OriginalTitle\"]"},
-                  {"variable" : "Player_Title",        "value" : "DYNAMIK JSON.parse(\"$Result\")[0].result[\"VideoPlayer.Title\"]"},
-                  {"variable" : "Player_TVShowTitle",  "value" : "DYNAMIK JSON.parse(\"$Result\")[0].result[\"VideoPlayer.TVShowTitle\"]"},
-                  {"variable" : "Player_PlaySpeed",    "value" : "DYNAMIK JSON.parse(\"$Result\")[0].result[\"Player.PlaySpeed\"]"}                 ]
-               }
-   
+         "KODIPlayerid" : 
+            {"type":"static", "command":"", "queryresult" : "",          
+            "pooltime":"5000", "poolduration":"",
+            "evaldo":[ 
+                  {"test":true, "then":"__GetPlayerID", "or":""}
+               ]
+            },
+         "KODIInfo" : 
+            {"label":"",
+            "type":"http-get",
+            "command":"http://$MyKODIIp:$MyKODIPort/jsonrpc?request={\"jsonrpc\": \"2.0\", \"id\": \"Getinfi-items\",\"method\":\"XBMC.GetInfoLabels\",\"params\": {\"labels\":[\"Player.PlaySpeed\",\"Player.Title\",\"Player.FinishTime\", \"VideoPlayer.OriginalTitle\",\"VideoPlayer.Title\",\"VideoPlayer.TVShowTitle\",\"VideoPlayer.Time\",\"VideoPlayer.Duration\"]}}",
+            "queryresult":"$.",
+            "pooltime":"10000", "poolduration":"",
+            "evalwrite" : [ 
+               {"variable" : "Player_Duration",     "value" : "DYNAMIK JSON.parse(\"$Result\")[0].result[\"VideoPlayer.Duration\"]"},
+               {"variable" : "Player_FinishTime",   "value" : "DYNAMIK JSON.parse(\"$Result\")[0].result[\"Player.FinishTime\"]"},
+               {"variable" : "Player_Time",         "value" : "DYNAMIK JSON.parse(\"$Result\")[0].result[\"VideoPlayer.Time\"]"},
+               {"variable" : "Player_OriginalTitle","value" : "DYNAMIK JSON.parse(\"$Result\")[0].result[\"VideoPlayer.OriginalTitle\"]"},
+               {"variable" : "Player_Title",        "value" : "DYNAMIK JSON.parse(\"$Result\")[0].result[\"VideoPlayer.Title\"]"},
+               {"variable" : "Player_TVShowTitle",  "value" : "DYNAMIK JSON.parse(\"$Result\")[0].result[\"VideoPlayer.TVShowTitle\"]"},
+               {"variable" : "Player_PlaySpeed",    "value" : "DYNAMIK JSON.parse(\"$Result\")[0].result[\"Player.PlaySpeed\"]"}                 ]
+            }
+
       },
       "variables":{
          "IPV6": "",
@@ -559,7 +566,7 @@
                      "type":"http-get",
                      "command":"http://$MyKODIIp:$MyKODIPort/jsonrpc?request={\"jsonrpc\":\"2.0\",\"method\":\"VideoLibrary.GetSeasons\",\"id\":\"TV\",\"params\":{\"tvshowid\":$TVShowid,\"properties\": [\"thumbnail\",\"playcount\",\"tvshowid\", \"season\", \"showtitle\"],\"sort\":{\"order\":\"ascending\",\"method\":\"label\",\"ignorearticle\": true }}}",
                      "queryresult":"$.result.seasons.*",
-                     "itemimage":"$ThumbnailFound",
+                     "itemimage":"$TVShowBanner",
                      "itembrowse":"DYNAMIK JSON.parse(\"$Result\").label","itemname":"DYNAMIK JSON.parse(\"$Result\").label","itemlabel":"DYNAMIK JSON.parse(\"$Result\").label",
                      "evalwrite":[
                                   {"variable":"SeasonName","value":"DYNAMIK JSON.parse(\"$Result\").label"},{"variable":"Seasonid","value":"DYNAMIK JSON.parse(\"$Result\").season"}],
