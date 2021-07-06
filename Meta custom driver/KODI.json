@@ -64,7 +64,7 @@
          "RPCPort":"9090",
          "TVShowTitle": "", 
          "TVShowid": "",
-         "TVShowBanner":"",         
+         "TVShowBanner":"",   
          "SeasonName":"",
          "Seasonid":"",
          "EpisodeName":"",
@@ -110,7 +110,15 @@
          "ShowThumbnail":true,
          "SetShutdownCommand":"\"System.Shutdown\"",
          "SetShutdownmenuCommand":"\"GUI.ActivateWindow\",\"params\":{\"window\": \"shutdownmenu\"}"
-      },      
+      },
+      "persistedvariables":{
+         "ShowThumbnail":true,
+         "ShutdownCommand":"\"GUI.ActivateWindow\",\"params\":{\"window\": \"shutdownmenu\"}",
+         "ShutdownMenu":true,
+         "ShutdownImmed": "",
+         "WatchFilter":"",
+         "ShowWatched":""
+      },
          "switches":{
             "Thumbnails" : {"label":"", "listen":"ShowThumbnail"}
           },  
