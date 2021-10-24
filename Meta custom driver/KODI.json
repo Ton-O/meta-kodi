@@ -5,7 +5,7 @@
    "variables": {"MYRESULT":""}, 
    "discover":{
      "welcomeheadertext":"Choose your KODI Instance",
-     "welcomedescription":"powered by meta\nby JAC459",
+     "welcomedescription":"powered by meta\nby Ton-o",
       "command": {"type":"dnssd", "command":"xbmc-jsonrpc-h", 
          "queryresult":["$.*"]
       }
@@ -40,7 +40,10 @@
          "MovieSetImage":"",
          "SetTitle":"",
          "Setid": "",
-         "Source":"",
+         "KEYBOARDSEARCH":"",
+         "nrItems":"", 
+         "MySearch":"", 
+         "MyFull":"", 
          "File":"", 
          "ReturnMenu":"",
          "JustASongid":"",
@@ -81,6 +84,7 @@
          "CacheBuilt": 0,
          "CacheResidency": 0,
          "CURSOR":"",
+         "Filter":"", 
          "Player_Title":"",
          "Player_PlaySpeed":"",
          "Player_FinishTime":"",
@@ -343,7 +347,7 @@
          "__StartupMessage":  
          {"label":"",                                 
             "type":"http-rest",
-            "command":"{\"verb\":\"post\",\"call\":\"http://$MyKODIIp:$MyKODIPort/jsonrpc?request=\", \"message\":{\"jsonrpc\":\"2.0\",\"id\":\"POWER-ON\",\"method\":\"GUI.ShowNotification\", \"params\":{\"title\": \"NEEO-Metadriver\",\"message\": \"NEEO-connection active\",\"displaytime\":5000}}}",
+            "command":"{\"verb\":\"post\",\"call\":\"http://$MyKODIIp:$MyKODIPort/jsonrpc?request=\", \"message\":{\"jsonrpc\":\"2.0\",\"id\":\"POWER-ON\",\"method\":\"GUI.ShowNotification\", \"params\":{\"title\": \"NEEO-meta-kodi\",\"message\": \"NEEO-connection active\",\"displaytime\":5000}}}",
             "evalwrite":[
                {"variable":"IsConnected","value":true},
                {"variable":"MyStatus","value":"Connected!"},
@@ -648,7 +652,7 @@
                "evalwrite":[
                   {"variable":"StartPlaylist","value":""}
                ]        
-         }  
+         }
       },
       "directories":
          {"Collection":            
@@ -662,10 +666,10 @@
                      "queryresult":"$.result.tvshows.*",
                      "itembrowse":"DYNAMIK JSON.parse(\"$Result\").label",
                      "itemname":"DYNAMIK JSON.parse(\"$Result\").label",                        
-                     "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/checkmark.jpg\":(\"$ShowThumbnail\" == \"true\")?(JSON.parse(\"$Result\").fanart.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").fanart.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").fanart.includes(\"smb%3a\"))?JSON.parse(\"$Result\").fanart.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\":\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/tvshow.jpg\"",
+                     "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons/checkmark.jpg\":(\"$ShowThumbnail\" == \"true\")?(JSON.parse(\"$Result\").fanart.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").fanart.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").fanart.includes(\"smb%3a\"))?JSON.parse(\"$Result\").fanart.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/tvshow.jpg\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/tvshow.jpg\"",
                      "evalwrite":[{"variable":"TVShowTitle","value":"DYNAMIK JSON.parse(\"$Result\").title"},
                         {"variable":"TVShowid","value":"DYNAMIK JSON.parse(\"$Result\").tvshowid"}, 
-                        {"variable":"TVShowBanner","value":"DYNAMIK (\"$ShowThumbnail\" == \"true\")?(JSON.parse(\"$Result\").fanart.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").fanart.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").fanart.includes(\"smb%3a\"))?JSON.parse(\"$Result\").fanart.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\":\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/tvshow.jpg\""}
+                        {"variable":"TVShowBanner","value":"DYNAMIK (\"$ShowThumbnail\" == \"true\")?(JSON.parse(\"$Result\").fanart.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").fanart.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").fanart.includes(\"smb%3a\"))?JSON.parse(\"$Result\").fanart.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/tvshow.jpg\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/tvshow.jpg\""}
                      ],
                      "evalnext":[
                         {
@@ -697,7 +701,7 @@
                      "type":"http-get",
                      "command":"http://$MyKODIIp:$MyKODIPort/jsonrpc?request={\"jsonrpc\":\"2.0\",\"method\":\"VideoLibrary.GetSeasons\",\"id\":\"TVShowSeasons\",\"params\":{\"tvshowid\":$TVShowid,\"properties\": [\"thumbnail\",\"playcount\",\"tvshowid\", \"season\", \"showtitle\"],\"sort\":{\"order\":\"ascending\",\"method\":\"label\",\"ignorearticle\": true }}}",
                      "queryresult":"$.result.seasons.*",
-                     "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/checkmark.jpg\":\"$TVShowBanner\"",
+                     "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//checkmark.jpg\":\"$TVShowBanner\"",
                      "itembrowse":"DYNAMIK JSON.parse(\"$Result\").label","itemname":"DYNAMIK JSON.parse(\"$Result\").label","itemlabel":"DYNAMIK JSON.parse(\"$Result\").label",
                      "evalwrite":[
                                   {"variable":"SeasonName","value":"DYNAMIK JSON.parse(\"$Result\").label"},{"variable":"Seasonid","value":"DYNAMIK JSON.parse(\"$Result\").season"}],
@@ -712,10 +716,10 @@
                      "command":"http://$MyKODIIp:$MyKODIPort/jsonrpc?request={\"jsonrpc\":\"2.0\",\"method\":\"VideoLibrary.GetEpisodes\",\"id\":\"TV\",\"params\":{\"tvshowid\":$TVShowid,\"filter\": {\"and\": [$WatchFilterSmall{ \"operator\": \"is\", \"field\":  \"season\", \"value\": \"$Seasonid\"}]} ,\"properties\":[\"title\",\"thumbnail\",\"playcount\"],\"sort\":{\"order\":\"ascending\",\"method\":\"label\",\"ignorearticle\": true }}}",
                      "queryresult":"$.result.episodes.*",
                      "itembrowse":"DYNAMIK JSON.parse(\"$Result\").label","itemname":"DYNAMIK JSON.parse(\"$Result\").label","itemlabel":"DYNAMIK JSON.parse(\"$Result\").label",
-                     "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/checkmark.jpg\":(\"$ShowThumbnail\" == \"true\")?(JSON.parse(\"$Result\").thumbnail.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").thumbnail.includes(\"smb%3a\"))?JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\":\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/tvshow.jpg\"",
+                     "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//checkmark.jpg\":(\"$ShowThumbnail\" == \"true\")?(JSON.parse(\"$Result\").thumbnail.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").thumbnail.includes(\"smb%3a\"))?JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/tvshow.jpg\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/tvshow.jpg\"",
                      "evalwrite":[{"variable":"EpisodeName","value":"DYNAMIK JSON.parse(\"$Result\").label"},
                                  {"variable":"Episodeid","value":"DYNAMIK JSON.parse(\"$Result\").episodeid"},
-                                 {"variable":"Episodeimage","value":"DYNAMIK (JSON.parse(\"$Result\").thumbnail.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").thumbnail.includes(\"smb%3a\"))?JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\""}                              
+                                 {"variable":"Episodeimage","value":"DYNAMIK (JSON.parse(\"$Result\").thumbnail.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").thumbnail.includes(\"smb%3a\"))?JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/tvshow.jpg\""}                              
                                  ],
                      "evalnext":[{"test":true,"then":"TVShowEpisode","or":""}]
                      }
@@ -742,7 +746,7 @@
                   "itemname":"$TVShowTitle",
                   "itemlabel":"$EpisodeName",
                   "itembrowse":"12",
-                  "itemimage":"https://raw.githubusercontent.com/jac459/metadriver/master/pictures/play.jpg",
+                  "itemimage":"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons/play.jpg",
                   "itemaction":"Play"                  
                   },
                   {
@@ -805,11 +809,11 @@
                   "itembrowse":"DYNAMIK JSON.parse(\"$Result\").label",
                   "itemname":"DYNAMIK JSON.parse(\"$Result\").showtitle",
                   "itemlabel":"DYNAMIK JSON.parse(\"$Result\").label",
-                  "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/checkmark.jpg\":(\"$ShowThumbnail\" == \"true\")?(JSON.parse(\"$Result\").thumbnail.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").thumbnail.includes(\"smb%3a\"))?JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/tvshow.jpg\":\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\"",
+                  "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//checkmark.jpg\":(\"$ShowThumbnail\" == \"true\")?(JSON.parse(\"$Result\").thumbnail.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").thumbnail.includes(\"smb%3a\"))?JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/tvshow.jpg\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/tvshow.jpg\"",
                   "evalwrite":[
                               {"variable":"EpisodeName","value":"DYNAMIK JSON.parse(\"$Result\").label"},
                               {"variable":"Episodeid","value":"DYNAMIK JSON.parse(\"$Result\").episodeid"}, 
-                              {"variable":"Episodeimage","value":"DYNAMIK (JSON.parse(\"$Result\").thumbnail.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").thumbnail.includes(\"smb%3a\"))?JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\""} 
+                              {"variable":"Episodeimage","value":"DYNAMIK (JSON.parse(\"$Result\").thumbnail.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").thumbnail.includes(\"smb%3a\"))?JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/tvshow.jpg\""} 
                               ],
                   "evalnext":[{"test":true, "then":"RecentEpisodePlay","or":""}]
                   }  
@@ -835,7 +839,7 @@
                      "itemname":"$EpisodeName",
                      "itemlabel":"$EpisodeName",
                      "itembrowse":"12",
-                     "itemimage":"https://raw.githubusercontent.com/jac459/metadriver/master/pictures/play.jpg",
+                     "itemimage":"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons/play.jpg",
                      "itemaction":"Play"                  
                      },
                      {
@@ -893,10 +897,10 @@
                   "itemname":"DYNAMIK JSON.parse(\"$Result\").label",
                   "itemlabel":"DYNAMIK JSON.parse(\"$Result\").label",
                   "itemaction":"", 
-                  "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/checkmark.jpg\":(\"$ShowThumbnail\" == \"true\")?(JSON.parse(\"$Result\").fanart.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").fanart.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").fanart.includes(\"smb%3a\"))?JSON.parse(\"$Result\").fanart.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\":\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/tvshow.jpg\"",
+                  "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//checkmark.jpg\":(\"$ShowThumbnail\" == \"true\")?(JSON.parse(\"$Result\").fanart.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").fanart.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").fanart.includes(\"smb%3a\"))?JSON.parse(\"$Result\").fanart.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/movie.jpg\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/tvshow.jpg\"",
                   "evalwrite":[{"variable":"MovieTitle","value":"DYNAMIK JSON.parse(\"$Result\").title"},
                                {"variable":"Movieid","value":"DYNAMIK JSON.parse(\"$Result\").movieid"}, 
-                               {"variable":"MovieBanner","value": "DYNAMIK (JSON.parse(\"$Result\").fanart.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").fanart.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").fanart.includes(\"smb%3a\"))?JSON.parse(\"$Result\").fanart.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\""}
+                               {"variable":"MovieBanner","value": "DYNAMIK (JSON.parse(\"$Result\").fanart.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").fanart.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").fanart.includes(\"smb%3a\"))?JSON.parse(\"$Result\").fanart.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/movie.jpg\""}
                               ],
                   "evalnext":[{"test":true, "then":"MoviePlay","or":""}
                   ]
@@ -928,7 +932,7 @@
                      "itemname":"$MovieTitle",
                      "itemlabel":"$MovieTitle",
                      "itembrowse":"12",
-                     "itemimage":"https://raw.githubusercontent.com/jac459/metadriver/master/pictures/play.jpg",
+                     "itemimage":"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons/play.jpg",
                      "itemaction":"Play"                  
                      },
                      {
@@ -988,10 +992,10 @@
                      "itembrowse":"DYNAMIK JSON.parse(\"$Result\").label",
                      "itemname":"DYNAMIK JSON.parse(\"$Result\").label",
                      "itemlabel":"DYNAMIK JSON.parse(\"$Result\").label",
-                     "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/checkmark.jpg\":(\"$ShowThumbnail\" == \"true\")?(JSON.parse(\"$Result\").thumbnail.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").thumbnail.includes(\"smb%3a\"))?JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\":\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\"",
+                     "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//checkmark.jpg\":(\"$ShowThumbnail\" == \"true\")?(JSON.parse(\"$Result\").thumbnail.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").thumbnail.includes(\"smb%3a\"))?JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/movie.jpg\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/movie.jpg\"",
                      "evalwrite":[{"variable":"MovieTitle","value":"DYNAMIK JSON.parse(\"$Result\").title"},
                                   {"variable":"Movieid","value":"DYNAMIK JSON.parse(\"$Result\").movieid"}, 
-                                  {"variable":"MovieBanner","value": "DYNAMIK (JSON.parse(\"$Result\").thumbnail.includes(\"image://video@\"))?\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\":(JSON.parse(\"$Result\").thumbnail.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"\").slice(0, -1)):\"\""}
+                                  {"variable":"MovieBanner","value": "DYNAMIK (JSON.parse(\"$Result\").thumbnail.includes(\"image://video@\"))?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/movie.jpg\":(JSON.parse(\"$Result\").thumbnail.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").thumbnail.replace(\"image://\",\"\").slice(0, -1)):\"\""}
                                  ],
                      "evalnext":[{"test":true, "then":"MoviePlay","or":""}]               
                   }  
@@ -1022,7 +1026,7 @@
                      "itemname":"$MovieTitle",
                      "itemlabel":"$MovieTitle",
                      "itembrowse":"12",
-                     "itemimage":"https://raw.githubusercontent.com/jac459/metadriver/master/pictures/play.jpg",
+                     "itemimage":"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons/play.jpg",
                      "itemaction":"Play"                  
                      },                     
                      {
@@ -1081,10 +1085,10 @@
                      "queryresult":"$.result.sets.*",
                      "itembrowse":"DYNAMIK JSON.parse(\"$Result\").label","itemname":"DYNAMIK JSON.parse(\"$Result\").label",
                      "itemlabel":"DYNAMIK JSON.parse(\"$Result\").label",
-                     "itemimage":"DYNAMIK (\"$ShowThumbnail\" == \"true\")?(JSON.parse(\"$Result\").fanart.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").fanart.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").fanart.includes(\"smb%3a\"))?JSON.parse(\"$Result\").fanart.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\":\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\"",
+                     "itemimage":"DYNAMIK (\"$ShowThumbnail\" == \"true\")?(JSON.parse(\"$Result\").fanart.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").fanart.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").fanart.includes(\"smb%3a\"))?JSON.parse(\"$Result\").fanart.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/movie.jpg\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/movie.jpg\"",
                      "evalwrite":[{"variable":"SetTitle","value":"DYNAMIK JSON.parse(\"$Result\").title"},
                                   {"variable":"Setid","value":"DYNAMIK JSON.parse(\"$Result\").setid"},
-                                  {"variable":"MovieBanner","value":"DYNAMIK (JSON.parse(\"$Result\").fanart.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").fanart.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").fanart.includes(\"smb%3a\"))?JSON.parse(\"$Result\").fanart.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\""}],
+                                  {"variable":"MovieBanner","value":"DYNAMIK (JSON.parse(\"$Result\").fanart.includes(\"http\"))?decodeURIComponent(JSON.parse(\"$Result\").fanart.replace(\"image://\",\"\").slice(0, -1)):(JSON.parse(\"$Result\").fanart.includes(\"smb%3a\"))?JSON.parse(\"$Result\").fanart.replace(\"image://\",\"http://$MyKODIIp:$MyKODIPort/vfs/\").slice(0, -1):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/movie.jpg\""}],
                      "evalnext":[
                         {
                            "test":true,
@@ -1134,7 +1138,7 @@
                      "itemname":"$MovieTitle",
                      "itemlabel":"$MovieTitle",
                      "itembrowse":"12",
-                     "itemimage":"https://raw.githubusercontent.com/jac459/metadriver/master/pictures/play.jpg",
+                     "itemimage":"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons/play.jpg",
                      "itemaction":"Play"                  
                      },
                      {
@@ -1191,7 +1195,7 @@
                            "type":"static",
                            "command":"",
                            "itemtype":"tile",
-                           "itemimage":"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg",                        
+                           "itemimage":"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/movie.jpg",                        
                            "itemaction":""
                         },
                         {
@@ -1201,11 +1205,11 @@
                            "itembrowse":"DYNAMIK JSON.parse(\"$Result\").file",
                            "itemname":"DYNAMIK JSON.parse(\"$Result\").file",
                            "itemlabel":"DYNAMIK JSON.parse(\"$Result\").label",
-                           "itemimage":"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg",
-                           "evalwrite":[{"variable":"Source","value":"DYNAMIK JSON.parse(\"$Result\").label"},
+                           "itemimage":"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/movie.jpg",
+                           "evalwrite":[{"variable":"KEYBOARDSEARCH","value":"DYNAMIK JSON.parse(\"$Result\").label"},
                                        {"variable":"VideoFile","value":"DYNAMIK JSON.parse(\"$Result\").file"},                                 
                                        {"variable":"VideoRootFile","value":"DYNAMIK JSON.parse(\"$Result\").file"},
-                                       {"variable":"VideoBanner","value":"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg"}
+                                       {"variable":"VideoBanner","value":"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/movie.jpg"}
                                     ],
                            "evalnext":[
                               {
@@ -1232,7 +1236,7 @@
                            "itembrowse":"DYNAMIK JSON.parse(\"$Result\").file",
                            "itemlabel":"DYNAMIK (JSON.parse(\"$Result\").label.length > 28)?JSON.parse(\"$Result\").label.slice(28,99):\"\"",
                            "itemname":"DYNAMIK JSON.parse(\"$Result\").label.slice(0,28)",
-                           "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/checkmark.jpg\":(JSON.parse(\"$Result\").filetype == \"directory\")?\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/Folder.jpg\":\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/File.jpg\"",
+                           "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//checkmark.jpg\":(JSON.parse(\"$Result\").filetype == \"directory\")?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//Folder.jpg\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//File.jpg\"",
 
                            "evalwrite":[{"variable":"VideoFile","value":"DYNAMIK JSON.parse(\"$Result\").file"},
                                        {"variable":"VideoDirectory2","value":"DYNAMIK JSON.parse(\"$Result\").file"},                               
@@ -1267,7 +1271,7 @@
                                  "itembrowse":"DYNAMIK JSON.parse(\"$Result\").file",
                                  "itemlabel":"DYNAMIK (JSON.parse(\"$Result\").label.length > 28)?JSON.parse(\"$Result\").label.slice(28,99):\"\"",
                                  "itemname":"DYNAMIK JSON.parse(\"$Result\").label.slice(0,28)",
-                                 "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/checkmark.jpg\":(JSON.parse(\"$Result\").filetype == \"directory\")?\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/Folder.jpg\":\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/File.jpg\"",
+                                 "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//checkmark.jpg\":(JSON.parse(\"$Result\").filetype == \"directory\")?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//Folder.jpg\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//File.jpg\"",
                                  "evalwrite":[{"variable":"VideoFile","value":"DYNAMIK JSON.parse(\"$Result\").file"},    
                                              {"variable":"VideoDirectory3","value":"DYNAMIK JSON.parse(\"$Result\").file"},                                                                            
                                              {"variable":"VideoFileType","value":"DYNAMIK JSON.parse(\"$Result\").filetype"}],
@@ -1299,7 +1303,7 @@
                            "itembrowse":"DYNAMIK JSON.parse(\"$Result\").file",
                            "itemlabel":"DYNAMIK (JSON.parse(\"$Result\").label.length > 28)?JSON.parse(\"$Result\").label.slice(28,99):\"\"",
                            "itemname":"DYNAMIK JSON.parse(\"$Result\").label.slice(0,28)",
-                           "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/checkmark.jpg\":(JSON.parse(\"$Result\").filetype == \"directory\")?\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/Folder.jpg\":\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/File.jpg\"",
+                           "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//checkmark.jpg\":(JSON.parse(\"$Result\").filetype == \"directory\")?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//Folder.jpg\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//File.jpg\"",
                            "evalwrite":[{"variable":"VideoFile","value":"DYNAMIK JSON.parse(\"$Result\").file"},   
                                        {"variable":"VideoDirectory4","value":"DYNAMIK JSON.parse(\"$Result\").file"},                                                                            
                                        {"variable":"VideoFileType","value":"DYNAMIK JSON.parse(\"$Result\").filetype"}],
@@ -1324,7 +1328,7 @@
                   "itembrowse":"DYNAMIK JSON.parse(\"$Result\").file",
                   "itemlabel":"DYNAMIK (JSON.parse(\"$Result\").label.length > 28)?JSON.parse(\"$Result\").label.slice(28,99):\"\"",
                   "itemname":"DYNAMIK JSON.parse(\"$Result\").label.slice(0,28)",
-                  "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/checkmark.jpg\":(JSON.parse(\"$Result\").filetype == \"directory\")?\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/Folder.jpg\":\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/File.jpg\"",
+                  "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//checkmark.jpg\":(JSON.parse(\"$Result\").filetype == \"directory\")?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//Folder.jpg\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//File.jpg\"",
                   "evalwrite":[{"variable":"VideoFile","value":"DYNAMIK JSON.parse(\"$Result\").file"},  
                               {"variable":"VideoDirectory5","value":"DYNAMIK JSON.parse(\"$Result\").file"},                                                                            
                               {"variable":"VideoFileType","value":"DYNAMIK JSON.parse(\"$Result\").filetype"}],
@@ -1356,7 +1360,7 @@
                            "itembrowse":"DYNAMIK JSON.parse(\"$Result\").file",
                            "itemlabel":"DYNAMIK (JSON.parse(\"$Result\").label.length > 28)?JSON.parse(\"$Result\").label.slice(28,99):\"\"",
                            "itemname":"DYNAMIK JSON.parse(\"$Result\").label.slice(0,28)",
-                           "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/checkmark.jpg\":(JSON.parse(\"$Result\").filetype == \"directory\")?\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/Folder.jpg\":\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/File.jpg\"",
+                           "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//checkmark.jpg\":(JSON.parse(\"$Result\").filetype == \"directory\")?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//Folder.jpg\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//File.jpg\"",
                            "evalwrite":[{"variable":"VideoFile","value":"DYNAMIK JSON.parse(\"$Result\").file"},    
                                        {"variable":"VideoDirectory6","value":"DYNAMIK JSON.parse(\"$Result\").file"},                                                                            
                                        {"variable":"VideoFileType","value":"DYNAMIK JSON.parse(\"$Result\").filetype"}],
@@ -1382,7 +1386,7 @@
                         "itembrowse":"DYNAMIK JSON.parse(\"$Result\").file",
                         "itemlabel":"DYNAMIK (JSON.parse(\"$Result\").label.length > 28)?JSON.parse(\"$Result\").label.slice(28,99):\"\"",
                         "itemname":"DYNAMIK JSON.parse(\"$Result\").label.slice(0,28)",
-                        "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/checkmark.jpg\":(JSON.parse(\"$Result\").filetype == \"directory\")?\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/Folder.jpg\":\"https://raw.githubusercontent.com/jac459/meta-kodi/master/Icons/File.jpg\"",
+                        "itemimage":"DYNAMIK (JSON.parse(\"$Result\").playcount != 0)?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//checkmark.jpg\":(JSON.parse(\"$Result\").filetype == \"directory\")?\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//Folder.jpg\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons//File.jpg\"",
                         "evalwrite":[{"variable":"VideoFile","value":"DYNAMIK JSON.parse(\"$Result\").file"}, 
                                     {"variable":"VideoDirectory6","value":"DYNAMIK JSON.parse(\"$Result\").file"},                                                                            
                                     {"variable":"VideoFileType","value":"DYNAMIK JSON.parse(\"$Result\").filetype"}],
@@ -1430,7 +1434,7 @@
                   "itemlabel":"DYNAMIK \"$VideoFile\".slice(0,31)",
                   "itemname":"DYNAMIK (\"$VideoFile\".length > 31)?\"$VideoFile\".substr(\"$VideoFile\".length - 31):\"$VideoFile\"",
                   "itembrowse":"12",
-                  "itemimage":"https://raw.githubusercontent.com/jac459/metadriver/master/pictures/play.jpg",
+                  "itemimage":"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons/play.jpg",
                   "itemaction":"Play"                  
                   }
                ]
@@ -1470,23 +1474,85 @@
                            
 
             {"type":"static",
-            "command":"[{\"name\":\"Show artists\", \"label\":\"Show all artists\", \"imageurl\":\"$ArtistBanner\",\"navigation\":\"ArtistSongs\"}]", 
+            "command":"[{\"name\":\"Show artists\", \"label\":\"Show all artists\", \"imageurl\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/Person.jpg\"}]",
                "queryresult":"$.*", "itemname":"DYNAMIK JSON.parse(\"$Result\").name", "itemlabel":"DYNAMIK JSON.parse(\"$Result\").label", "itemimage":"DYNAMIK JSON.parse(\"$Result\").imageurl",
-                                       "evalnext":[{"test":true, "then":"Artists", "or":""}]
+               "evalwrite":[{"variable":"Filter","value":""}],
+               "evalnext":[{"test":true, "then":"Artists", "or":""}]
             },
             {"type":"static",
-            "command":"[{\"name\":\"Show albums\", \"label\":\"Show all albums\", \"imageurl\":\"$ArtistBanner\",\"navigation\":\"ArtistSongs\"}]", 
+            "command":"[{\"name\":\"Show albums\", \"label\":\"Show all albums\", \"imageurl\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/Album.jpg\"}]",
                "queryresult":"$.*", "itemname":"DYNAMIK JSON.parse(\"$Result\").name", "itemlabel":"DYNAMIK JSON.parse(\"$Result\").label", "itemimage":"DYNAMIK JSON.parse(\"$Result\").imageurl",
-                                       "evalnext":[{"test":true, "then":"Albums", "or":""}]
+               "evalwrite":[{"variable":"Filter","value":""}],
+               "evalnext":[{"test":true, "then":"Albums", "or":""}]
             },
             {"type":"static",
-            "command":"[{\"name\":\"Show favorites\", \"label\":\"Show your favorites\", \"imageurl\":\"$ArtistBanner\",\"navigation\":\"ArtistSongs\"}]", 
+            "command":"[{\"name\":\"Show favorites\", \"label\":\"Show your favorites\", \"imageurl\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/Checkmark.jpg\"}]",
                "queryresult":"$.*", "itemname":"DYNAMIK JSON.parse(\"$Result\").name", "itemlabel":"DYNAMIK JSON.parse(\"$Result\").label", "itemimage":"DYNAMIK JSON.parse(\"$Result\").imageurl",
-                                       "evalnext":[{"test":true, "then":"Favorites", "or":""}]
-            }
+               "evalwrite":[{"variable":"Filter","value":""}],
+               "evalnext":[{"test":true, "then":"Favorites", "or":""}]
+            },
+            {"type":"static",
+               "command":"[{\"name\":\"Search artists\", \"label\":\"Search through artists\", \"imageurl\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/Search.jpg\"}]", 
+                  "queryresult":"$.*", "itemname":"DYNAMIK JSON.parse(\"$Result\").name", "itemlabel":"DYNAMIK JSON.parse(\"$Result\").label", "itemimage":"DYNAMIK JSON.parse(\"$Result\").imageurl",
+                  "evalwrite":[{"variable":"KEYBOARDSEARCH","value":""},
+                              {"variable":"Filter","value":""}],
+                  "evalnext":[{"test":true, "then":"Search", "or":""}]
+               }
             ]
+            
          },  
-            "Albums":{
+         "Search":{"label":"Artist search",
+            "commandset":[                
+            {
+               "type":"http-get","itemtype":"keyboardsearch",
+               "command":"http://192.168.0.2:8080/jsonrpc?request={\"jsonrpc\": \"2.0\", \"method\": \"AudioLibrary.GetArtists\", \"params\": { \"limits\": { \"start\" : 0, \"end\": 99999}, \"properties\":[\"sortname\"], \"sort\": { \"order\": \"ascending\", \"method\": \"artist\", \"ignorearticle\": true } }, \"id\": \"List artists for search\"}",
+               "queryresult":"$.result.artists.[*].artist",
+               "itembrowse":"$Result",
+               "itemname":"$Result",
+               "itemlabel":"$Result",
+               "itemimage":"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/Person.jpg",
+               "evalwrite":[{"variable":"MySearch","value":"DYNAMIK JSON.parse(\"$Result\").SEARCHPARM"},
+                  {"variable":"MyFull","value":"DYNAMIK JSON.parse(\"$Result\").NAMEFOUND"},
+                  {"variable":"nrItems","value":"DYNAMIK JSON.parse(\"$Result\").RESULTENTRIES"},
+                  {"variable":"ArtistName","value":"DYNAMIK (JSON.parse(\"$Result\").RESULTENTRIES==1)?\"$MyFull\":\"$MySearch\""}
+                        ],
+               "evalnext":[
+                  {
+                     "test":true,"then":"ContinueSearchornot",
+                     "or":""
+                  } 
+               ]
+            }
+            ] 
+         },   
+         "ContinueSearchornot":{   
+            "label":"Dialog to continue filling search or use current value",
+            "commandset":[
+               {
+                  "type":"static",
+                  "command":"{}",
+                  "itemtype":"tile",
+                  "itemaction":"",
+                  "itemimage":"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/Song.jpg"
+               },
+               {
+               "type":"static",
+               "command":"[{\"name\":\"$ArtistName\",\"label\":\"Use Source and continue\"}]", 
+                  "queryresult":"$.*", "itemname":"DYNAMIK JSON.parse(\"$Result\").name", "itemlabel":"DYNAMIK JSON.parse(\"$Result\").label", "itemimage":"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/checkmark.jpg",
+                  "evalwrite":[{"variable":"Filter","value":"\"filter\": {\"field\": \"artist\", \"operator\": \"startswith\", \"value\": \"$MySearch\"},"}
+                  ],
+                  "evalnext":[{"test":"\"$nrItems\"==\"1\"","then":"SongsOrAlbumsByArtistName", "or":"Artists"}
+                  ]
+               },                  
+               {
+               "type":"static",
+               "command":"[{\"name\":\"Click back to continue typing\", \"label\":\"Use back button\", \"imageurl\":\"$ArtistBanner\",\"navigation\":\"ArtistSongs\"}]", 
+                  "queryresult":"$.*", "itemaction":"goback","itemname":"DYNAMIK JSON.parse(\"$Result\").name", "itemlabel":"DYNAMIK JSON.parse(\"$Result\").label", "itemimage":"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/cross.jpg"
+                  }
+               ]
+         },
+
+         "Albums":{
             "label":"Album list",
             "commandset":[
                {
@@ -1497,11 +1563,11 @@
                "itembrowse":"DYNAMIK JSON.parse(\"$Result\").title",
                "itemname":"DYNAMIK JSON.parse(\"$Result\").title",
                "itemlabel":"DYNAMIK (JSON.parse(\"$Result\").artist!=undefined)?JSON.parse(\"$Result\").artist[0]:\"[empty]\"",
-               "itemimage":"DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\"",
+               "itemimage":"DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/Album.jpg\"",
                "evalwrite":[{"variable":"AlbumTitle","value":"DYNAMIK JSON.parse(\"$Result\").label"},
                             {"variable":"Albumid","value":"DYNAMIK JSON.parse(\"$Result\").albumid"}, 
                             {"variable":"ArtistName","value":"DYNAMIK (JSON.parse(\"$Result\").artist!=undefined)?JSON.parse(\"$Result\").artist[0]:\"[empty]\""}, 
-                            {"variable":"AlbumBanner","value": "DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\""}
+                            {"variable":"AlbumBanner","value": "DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/Album.jpg\""}
                            ],
                "evalnext":[{"test":true, "then":"AlbumSongs","or":""}
                ]
@@ -1553,10 +1619,10 @@
                   "itembrowse":"DYNAMIK (JSON.parse(\"$Result\").label!=undefined)?JSON.parse(\"$Result\").label:\"[empty label]\"",
                   "itemlabel": "DYNAMIK (JSON.parse(\"$Result\").artist!=undefined)?JSON.parse(\"$Result\").artist[0]:\"[empty artist]\"",
                   "itemname":"DYNAMIK (JSON.parse(\"$Result\").label!=undefined)?JSON.parse(\"$Result\").label:\"17\"",
-                  "itemimage": "DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\"",
+                  "itemimage": "DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/Album.jpg\"",
                   "evalwrite":[{"variable":"SongTitle","value":"DYNAMIK JSON.parse(\"$Result\").label"},
                                {"variable":"Songid","value":"DYNAMIK JSON.parse(\"$Result\").songid"}, 
-                               {"variable":"SongBanner","value": "DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\""},
+                               {"variable":"SongBanner","value": "DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/Album.jpg\""},
                                {"variable":"ArtistName","value":"DYNAMIK (JSON.parse(\"$Result\").artist!=undefined)?JSON.parse(\"$Result\").artist[0]:\"[empty]\""}
                               ],
                   "evalnext":[{"test":true, "then":"SongDialog","or":""}]
@@ -1581,22 +1647,80 @@
             "commandset":[
                {
                "type":"http-get",			
-               "command":"http://$MyKODIIp:$MyKODIPort/jsonrpc?request={\"jsonrpc\":\"2.0\",\"method\":\"AudioLibrary.GetArtists\",\"id\":\"Artists\",\"params\":{\"properties\":[\"thumbnail\"],\"sort\":{\"order\":\"ascending\",\"method\":\"label\",\"ignorearticle\": true }}}",
+               "command":"http://$MyKODIIp:$MyKODIPort/jsonrpc?request={\"jsonrpc\":\"2.0\",\"method\":\"AudioLibrary.GetArtists\",\"id\":\"List Artists\",\"params\":{$Filter\"properties\":[\"thumbnail\"],\"sort\":{\"order\":\"ascending\",\"method\":\"label\",\"ignorearticle\": true }}}",
                "queryresult":"$.result.artists.*",
                "itemaction":"",
                "itembrowse":"DYNAMIK JSON.parse(\"$Result\").artistid",
                "itemname":"DYNAMIK JSON.parse(\"$Result\").label",
                "itemlabel":"DYNAMIK (JSON.parse(\"$Result\").label!=undefined)?JSON.parse(\"$Result\").label:\"[empty]\"",
-               "itemimage":"DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\"",
+               "itemimage":"DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/movie.jpg\"",
                "evalwrite":[
                               {"variable":"ArtistName","value":"DYNAMIK JSON.parse(\"$Result\").artist"},
                               {"variable":"Artistid","value":"DYNAMIK JSON.parse(\"$Result\").artistid"},
-                            {"variable":"ArtistBanner","value":"DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\""}
+                            {"variable":"ArtistBanner","value":"DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/Person.jpg\""}
                            ],
                "evalnext":[{"test":true, "then":"SongsOrAlbums","or":""}
                ]
                }  
             ]
+            },
+            "SongsOrAlbumsByArtistName":{   
+               "label":"Choose song or album",
+               "commandset":[
+                  {
+                  "type":"http-get",			
+                  "command":"http://$MyKODIIp:$MyKODIPort/jsonrpc?request={\"jsonrpc\":\"2.0\",\"method\":\"AudioLibrary.GetArtists\",\"id\":\"Get Artistid\",\"params\":{\"filter\":{\"field\": \"artist\", \"operator\": \"is\", \"value\": \"$MyFull\"},\"properties\":[\"thumbnail\"]}}",
+                     "queryresult":"$.result.artists.*",
+                     "itemaction":"",
+                     "itemname":"Show Songs of $MyFull",
+                     "itemlabel":"Show songs of this artist/group",
+                     "itemimage":"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/Song.jpg",
+                     "evalwrite":[
+                                    {"variable":"ArtistName","value":"DYNAMIK JSON.parse(\"$Result\").artist"},
+                                    {"variable":"Artistid","value":"DYNAMIK JSON.parse(\"$Result\").artistid"},
+                                    {"variable":"ArtistBanner","value":"DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/Person.jpg\""}
+                                 ],
+                        "evalnext":[{"test":true, "then":"ArtistSongs", "or":""}]
+                  },                  
+                  {
+                     "type":"http-get",			
+                     "command":"http://$MyKODIIp:$MyKODIPort/jsonrpc?request={\"jsonrpc\":\"2.0\",\"method\":\"AudioLibrary.GetArtists\",\"id\":\"Get Artistid\",\"params\":{\"filter\":{\"field\": \"artist\", \"operator\": \"is\", \"value\": \"$MyFull\"},\"properties\":[\"thumbnail\"]}}",
+                        "queryresult":"$.result.artists.*",
+                        "itemaction":"",
+                        "itemname":"Show Albums FROM $MyFull", 
+                        "itemlabel":"Show albums FROM this artist", 
+                        "itemimage":"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/Album.jpg",
+                        "evalwrite":[{"variable":"ArtistAlbumSearch","value":"{\"field\":\"albumartist\",\"operator\":\"is\",\"value\":\"$ArtistName\"}"},
+                                       {"variable":"ArtistName","value":"DYNAMIK JSON.parse(\"$Result\").artist"},
+                                       {"variable":"Artistid","value":"DYNAMIK JSON.parse(\"$Result\").artistid"},
+                                       {"variable":"ArtistBanner","value":"DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/Person.jpg\""}
+                                    ],
+                        "evalnext":[{"test":true, "then":"ArtistAlbums", "or":""}]
+                     },  
+                     {
+                        "type":"http-get",			
+                        "command":"http://$MyKODIIp:$MyKODIPort/jsonrpc?request={\"jsonrpc\":\"2.0\",\"method\":\"AudioLibrary.GetArtists\",\"id\":\"Get Artistid\",\"params\":{\"filter\":{\"field\": \"artist\", \"operator\": \"is\", \"value\": \"$MyFull\"},\"properties\":[\"thumbnail\"]}}",
+                           "queryresult":"$.result.artists.*",
+                           "itemaction":"",
+                           "itemname":"Show Albums WITH $MyFull", 
+                           "itemlabel":"Show albums WITH this artist", 
+                           "itemimage":"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/Album.jpg",
+                           "evalwrite":[{"variable":"ArtistAlbumSearch","value":"{\"field\":\"artist\",\"operator\":\"is\",\"value\":\"$ArtistName\"}"},
+                                          {"variable":"ArtistName","value":"DYNAMIK JSON.parse(\"$Result\").artist"},
+                                          {"variable":"Artistid","value":"DYNAMIK JSON.parse(\"$Result\").artistid"},
+                                          {"variable":"ArtistBanner","value":"DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/Person.jpg\""}
+                                       ],
+                           "evalnext":[{"test":true, "then":"ArtistAlbums", "or":""}]
+                        },
+                  {
+                     "type":"static",
+                     "command":"{}",
+                     "queryresult":"", 
+                     "itemtype":"tile",
+                     "itemaction":"",
+                     "itemimage":"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons/Song.jpg"
+                     } 
+                  ]
             },
             "SongsOrAlbums":{   
                "label":"Choose song or album",
@@ -1650,10 +1774,10 @@
                   "itembrowse":"DYNAMIK (JSON.parse(\"$Result\").label!=undefined)?JSON.parse(\"$Result\").label:\"[empty label]\"",
                   "itemlabel": "$ArtistName",
                   "itemname":"DYNAMIK (JSON.parse(\"$Result\").label!=undefined)?JSON.parse(\"$Result\").label:\"17\"",
-                  "itemimage": "DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\"",
+                  "itemimage": "DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/movie.jpg\"",
                   "evalwrite":[{"variable":"SongTitle","value":"DYNAMIK JSON.parse(\"$Result\").label"},
                                  {"variable":"Songid","value":"DYNAMIK JSON.parse(\"$Result\").songid"}, 
-                                 {"variable":"SongBanner","value": "DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\""}
+                                 {"variable":"SongBanner","value": "DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/movie.jpg\""}
                               ],
                   "evalnext":[{"test":true, "then":"SongDialog","or":""}]
                }
@@ -1671,7 +1795,7 @@
                   },
                   {
                   "type":"static",
-                  "command":"[{\"name\":\"$SongTitle\", \"label\":\"$ArtistName\", \"imageurl\":\"https://raw.githubusercontent.com/jac459/metadriver/master/pictures/play.jpg\"}]", 
+                  "command":"[{\"name\":\"$SongTitle\", \"label\":\"$ArtistName\", \"imageurl\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons/play.jpg\"}]", 
                      "queryresult":"$.*", "itemname":"DYNAMIK JSON.parse(\"$Result\").name", "itemaction":"SongPlay","itemlabel":"DYNAMIK JSON.parse(\"$Result\").label", "itemimage":"DYNAMIK JSON.parse(\"$Result\").imageurl"
                   },
                   {
@@ -1718,11 +1842,11 @@
                   "itembrowse":"DYNAMIK (JSON.parse(\"$Result\").label!=undefined)?JSON.parse(\"$Result\").label:\"[empty label]\"",
                      "itemlabel": "DYNAMIK (JSON.parse(\"$Result\").artist!=undefined)?JSON.parse(\"$Result\").artist[0]:\"[empty artist]\"",
                      "itemname":"DYNAMIK (JSON.parse(\"$Result\").label!=undefined)?JSON.parse(\"$Result\").label:\"17\"",
-                     "itemimage": "DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\"",
+                     "itemimage": "DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/movie.jpg\"",
    
                      "evalwrite":[{"variable":"AlbumTitle","value":"DYNAMIK JSON.parse(\"$Result\").label"},
                                   {"variable":"Albumid","value":"DYNAMIK JSON.parse(\"$Result\").albumid"}, 
-                                  {"variable":"AlbumBanner","value": "DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\""}
+                                  {"variable":"AlbumBanner","value": "DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/movie.jpg\""}
                                  ],
                      "evalnext":[{"test":true, "then":"AlbumDialog","or":""}]
                   }
@@ -1740,7 +1864,7 @@
                   },
                   {
                   "type":"static",
-                  "command":"[{\"name\":\"$AlbumTitle\", \"label\":\"Show songs\", \"imageurl\":\"https://raw.githubusercontent.com/jac459/metadriver/master/pictures/play.jpg\"}]", 
+                  "command":"[{\"name\":\"$AlbumTitle\", \"label\":\"Show songs\", \"imageurl\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons/play.jpg\"}]", 
                      "queryresult":"$.*", "itemname":"DYNAMIK JSON.parse(\"$Result\").name", "itemaction":"SongPlay","itemlabel":"DYNAMIK JSON.parse(\"$Result\").label", "itemimage":"DYNAMIK JSON.parse(\"$Result\").imageurl"
                   },
                   {
@@ -1840,13 +1964,13 @@
                "itembrowse":"DYNAMIK JSON.parse(\"$Result\").id",
                "itemname":"DYNAMIK JSON.parse(\"$Result\").label",
                "itemlabel":"DYNAMIK (JSON.parse(\"$Result\").artist!=undefined)?JSON.parse(\"$Result\").artist[0]:\"[empty]\"",
-               "itemimage":"DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\"",
+               "itemimage":"DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/movie.jpg\"",
                "evalwrite":[{"variable":"PlaylistEntry","value":"$Result"}, 
                            {"variable":"AlbumTitle","value":"DYNAMIK JSON.parse(\"$Result\").album"},
                            {"variable":"Songid","value":"DYNAMIK JSON.parse(\"$Result\").songid"},
                            {"variable":"SongTitle","value":"DYNAMIK (JSON.parse(\"$Result\").title!=undefined)?JSON.parse(\"$Result\").title:\"[empty]\""}, 
                            {"variable":"Listindex","value":"$ListIndex"}, 
-                           {"variable":"SongBanner","value": "DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/jac459/meta-kodi/main/Icons/movie.jpg\""},
+                           {"variable":"SongBanner","value": "DYNAMIK (JSON.parse(\"$Result\").thumbnail!=\"\")?\"http://$MyKODIIp:$MyKODIPort/image/\"+encodeURIComponent(JSON.parse(\"$Result\").thumbnail):\"https://raw.githubusercontent.com/Ton-o/meta-kodi/main/Icons/movie.jpg\""},
                            {"variable":"ArtistName","value":"DYNAMIK (JSON.parse(\"$Result\").artist!=undefined)?JSON.parse(\"$Result\").artist[0]:\"[empty]\""}
                            ],
                "evalnext":[{"test":true, "then":"PlaylistDialog","or":""}
@@ -1876,7 +2000,7 @@
                   },
                   {
                   "type":"static",
-                  "command":"[{\"name\":\"\", \"label\":\"Move this item\", \"imageurl\":\"https://raw.githubusercontent.com/jac459/metadriver/master/pictures/play.jpg\"}]", 
+                  "command":"[{\"name\":\"\", \"label\":\"Move this item\", \"imageurl\":\"https://raw.githubusercontent.com/Ton-o/meta-kodi/master/Icons/play.jpg\"}]", 
                   "queryresult":"$.*", "itemUI":"goBack","itemname":"\"$MoveOrPlaceSong\"","itemlabel":"\"$MoveOrPlaceSong\"", "itemimage":"DYNAMIK JSON.parse(\"$Result\").imageurl",
                   "evalwrite":[{"variable":"ItemToMove","value":"DYNAMIK \"$MoveOrPlaceSong\" == \"Move song\"? \"$ListIndex\":\"$ItemToMove\""},
                                {"variable":"MYRESULT","value":"in listitem"}], 
