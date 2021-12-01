@@ -5,8 +5,8 @@
 
 ## Installation:
 Please note: This release is no longer compatible with the version of meta delivered by the author of meta; it requires changes that haven't been implemented in that version.
-In-stead, it uses a frozen release of meta where numerous functions have been added. 
-See https://github.com/Ton-O/NEEO-Meta-Plus on how to get this "Meta-plus" installed on your system (rasopberry pi). 
+In-stead, it uses a frozen release of meta that I creTED (named Meta-Plus) to which I added numerous functions. 
+See https://github.com/Ton-O/NEEO-Meta-Plus on how to get this "Meta-plus" installed on your system. I advice Meta-Plus to run on a raspberry pi (V4 suggested), but it can also run as a docker container, hell it can even run on the NEEO-brain. Honestly, running on the Brain works, but has a much lowerr perfromance compared to the 2 others.
 
 The version of meta installed this way, is a frozen version, based on the november 2021 release of meta, but will NOT be upgraded if the author of meta releases new versions!
 As such, it is strongly adviced to install this driver on a separate meta-installation to not interfere with the excellent version of meta delivered by the author (https://github.com/jac459/meta)
