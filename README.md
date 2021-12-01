@@ -1,9 +1,18 @@
 ### meta-kodi
 ## V 0.3
 
-## This repository contains supporting material for NEEO-Metadriver to control Kodi-applications over HTTPC (POST).
+## This repository contains supporting material for NEEO-Meta to control Kodi-applications over the network.
 
 ## Installation:
+Please note: This release is no longer compatible with the version of meta delivered by the author of meta; it requires changes that haven't been implemented in that version.
+In-stead, it uses a frozen release of meta where numerous functions have been added. 
+See https://github.com/Ton-O/NEEO-Meta-Plus on how to get this "Meta-plus" installed on your system (rasopberry pi). 
+
+The version of meta installed this way, is a frozen version, based on the november 2021 release of meta, but will NOT be upgraded if the author of meta releases new versions!
+As such, it is strongly adviced to install this driver on a separate meta-installation to not interfere with the excellent version of meta delivered by the author (https://github.com/jac459/meta)
+USE THIS DRIVER AND THE REQUIRED META-PLUS AT YOUR OWN RISK! 
+
+Once you have meta-plus installed and upgraded the modules by following the installation described above, you can enjoy the latest KODI-driver on youyr NEEO. Updates to the KODI-driver can be installed inb the normal-way and is describved below. 
 
 # Installation.
 The consists of activating the CoreDriver called KODI in .meta.
@@ -16,10 +25,10 @@ This is just a matter of goi g ibnto the .meta recipe on your remote or phone wi
 
 # Discovery
 This driver uses autodiscovery of your kodi-devices, so make sure your KODI is started before adding the device.
-In the NEEO-Settings, go to devices, then do an add device. Then type KODI as search argument. NEEO will find "Ton&JAC .meta KODI". 
-Select this driver, then click "Next". meta will search for KODI-instances and display the result. 
+In the NEEO-Settings, go to devices, then do an add device. Then type KODI as search argument. NEEO will find "Tono .meta2 KODIPLAYER". 
+Select this driver, then click "Next". Meta-Plus will search for KODI-instances and display the result. 
 Select an instance and assign it to the correct room.  
-The following shortcuts are handy, but you casn select the ones you like:
+The following shortcuts are handy, but you can select the ones you like:
 Widgets:
 -Menu&Back
 Buttons:
@@ -62,6 +71,7 @@ New in this release are 4 directories:
 - TVShows:      Directory that opens KODI library and shows all the TVShows that are defined.
 - Movies:       Directory that opens KODI library and shows all the Movies that are defined.
 - Moviesets:    Directory that opens KODI library and shows all the Movies that are defined within MovieSets.
+- Music:        Directory that opens KODI Library for Music. It allows browsing by artist and album, and searching through a smart search method. 
 - VideoSources: Directory that opens KODI library for all the VIDEO-sources. 
                 Then you can browse each source as a file-explorer. Browsing through directories is currently limited to 7 levels deep because of technical and practical limits.
  
