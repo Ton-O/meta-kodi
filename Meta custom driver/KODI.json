@@ -1,7 +1,7 @@
 { "name":"KODIPlayer",
    "manufacturer":"Tono",
    "type":"MEDIAPLAYER",
-   "version":27,
+   "version":28,
    "variables": {"MYRESULT":""}, 
    "discover":{
      "welcomeheadertext":"Choose your KODI Instance",
@@ -14,7 +14,7 @@
       "name": "KODIPlayer",
       "type":"MEDIAPLAYER",
       "manufacturer": "Tono",
-      "version": 27,
+      "version": 28,
       "variables":{
          "IPV6": "",
          "itemname":"", 
@@ -137,14 +137,9 @@
    "listeners" : {
       "KODIListener" : 
 
-         {"type":"webSocket", "command":{"connection":"ws://$MyKODIIp:$RPCPort", "message": "message"}, 
-         "queryresult" : "",  "isHub":false,
+         {"type":"webSocket", "command":{"connection":"ws://$MyKODIIp:$RPCPort", "message": "message"}, "queryresult" : "",  "isHub":false,
             "evalwrite" : [ 
-               {"variable":"MYRESULT","value":"$Result"},
-
-               {"variable":"MYRESULT","value":"DYNAMIK JSON.parse(\"$Result\")"},
-               {"variable":"MYRESULT","value":"DYNAMIK JSON.parse(\"$Result\").method"},
-               {"variable":"websocketMsgs","value":"DYNAMIK ($websocketMsgs)+1"},                                                                             
+               {"variable":"websocketMsgs","value":"DYNAMIK ($websocketMsgs)+1"},
                {"variable":"PlayerID","value":"DYNAMIK ((\"$Result\" == \"\") ||JSON.parse(\"$Result\").method != \"Player.OnPlay\")?$PlayerID:JSON.parse(\"$Result\").params.data.player.playerid"}
             ],
             "evaldo":[ 
@@ -333,7 +328,7 @@
          "__CheckPlaying":
             {"label":"",      
             "type":"http-rest",
-            "command":"{\"verb\":\"post\",\"call\":\"http://$MyKODIIp:$MyKODIPort/jsonrpc?request=\", \"message\":{\"jsonrpc\":\"2.0\",\"method\":\"Player.GetProperties\",\"params\": {\"playerid\":1,\"properties\":[\"speed\"]},\"id\":\"\"}}",
+            "command":"{\"verb\":\"post\",\"call\":\"http://$MyKODIIp:$MyKODIPort/jsonrpc?request=\", \"message\":{\"jsonrpc\":\"2.0\",\"method\":\"Player.GetProperties\",\"params\": {\"playerid\":$PlayerID,\"properties\":[\"speed\"]},\"id\":\"\"}}",
             "queryresult":"$.result",
             "evalwrite":[{"variable":"MyStatus","value":"DYNAMIK JSON.parse(\"$Result\").speed == 0?\"Paused\":\"Playing\" "}]
          },
@@ -613,6 +608,7 @@
             "type":"webSocket",
             "command":"{\"connection\": \"ws://$MyKODIIp:$RPCPort\", \"message\":{\"jsonrpc\":\"2.0\",\"method\":\"Input.ContextMenu\",\"id\":\"\"}}",
             "evalwrite":[{"variable":"CheckWindow_ID","value":"$Fullscreen_ID"},
+               {"variable":"CacheBuilt","value":"0"},
                {"variable":"CURSOR","value":"Menu"},
                {"variable":"ReturnMenu","value":"__OSD"}               
                ],  
