@@ -3,20 +3,36 @@
 
 ## This repository contains supporting material for NEEO-Meta to control Kodi-applications over the network.
 
+## Whats added in this version?
+A lot......
+- Directories for browsing TVShows, Movies
+- Music.
+- Directories for browsing by album, song, artist and playlists
+- A smart search-solution that you can use to search smart on TVShows, Movies, albums and artist 
+- A dialog that allows you to browse and manipulate playlists
+- A dialog now opens up when you start a KODI-object (video or audio) via a directory browse, allowing you to start, pause, stop or grab info on it.
+- a lot of bugs are being fixed:
+-   Cleanup of connections once KODI is shutdown; meta did not have anycleanup of connections and sessons for MQTT and Websockets
+-   Listheaders that give information on the list being presented
+
+
 ## Installation:
 Please note: This release is no longer compatible with the version of meta delivered by the author of meta; it requires changes that haven't been implemented in that version.
-In-stead, it uses a frozen release of meta that I creTED (named Meta-Plus) to which I added numerous functions. 
-See https://github.com/Ton-O/NEEO-Meta-Plus on how to get this "Meta-plus" installed on your system. I advice Meta-Plus to run on a raspberry pi (V4 suggested), but it can also run as a docker container, hell it can even run on the NEEO-brain. Honestly, running on the Brain works, but has a much lowerr perfromance compared to the 2 others.
+In-stead, it uses a frozen release of meta that I created (named Meta-Plus) to which I added numerous functions. 
+See https://github.com/Ton-O/NEEO-Meta-Plus on how to get this "Meta-plus" installed on your system. I advice Meta-Plus to run on a raspberry pi (V4 suggested), but it can also run as a docker container, hell it can even run on the NEEO-brain. Honestly, running on the Brain works, but has a much lower perfromance compared to the other 2.
 
-The version of meta installed this way, is a frozen version, based on the november 2021 release of meta, but will NOT be upgraded if the author of meta releases new versions!
+The version of meta installed this way, is a frozen version, based on the november 2021 release of meta, but will NOT (PLEASE UNDERSTAND THE WORD NOT!!) be upgraded if the author of meta releases new versions!
 As such, it is strongly adviced to install this driver on a separate meta-installation to not interfere with the excellent version of meta delivered by the author (https://github.com/jac459/meta)
-USE THIS DRIVER AND THE REQUIRED META-PLUS AT YOUR OWN RISK! 
+USE THIS DRIVER AND THE REQUIRED META-PLUS AT YOUR OWN RISK! USE IT ONLY IF YOU ARE WILLING TO SET IT UOP ON A DEDICATED (VIRTUAL) DEVICE.
 
-Once you have meta-plus installed and upgraded the modules by following the installation described above, you can enjoy the latest KODI-driver on youyr NEEO. Updates to the KODI-driver can be installed inb the normal-way and is describved below. 
+IF YOU DON'T UNDERSTAND THE RISKS FORGET ABOUT HIS VERSION, JUST STICK WITH THE FORMAL RELEASE OF META (AT JAC459) AND THE KODI THAT IS STILL THERE. 
+BUT KEEP IN MIND THAT I DO NOT MAINTAIN THE VERSION ON JAC's REPOSITORIES ANYMORE.
+
+Once you have meta-plus installed and upgraded the modules by following the installation described above, you can enjoy the latest KODI-driver on your NEEO. Updates to the KODI-driver can be installed in the normal-way and is describvd below.  <---- THIS PART NEEDS TO BE ADDED, Currently KODI0-driver can only be installed manually.
 
 # Installation.
 The consists of activating the CoreDriver called KODI in .meta.
-This is just a matter of goi g ibnto the .meta recipe on your remote or phone with neeo-app, then:
+This is just a matter of going into the .meta recipe on your remote or phone with neeo-app, then:
 - going to Libary.
 - Find KODI in the list and click it
 - Select Activate driver
