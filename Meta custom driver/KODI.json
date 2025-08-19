@@ -6,7 +6,7 @@
    "discover":{
      "welcomeheadertext":"Choose your KODI Instance",
      "welcomedescription":"By Ton-o; powered by meta\n ",
-      "command": {"type":"dnssd", "command":"xbmc-jsonrpc", 
+      "command": {"type":"dnssd", "command":"xbmc-jsonrpc-h", 
          "queryresult":["$.*"]
       }
    },
