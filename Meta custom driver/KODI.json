@@ -157,7 +157,7 @@
          "evalwrite" : [ 
             {"variable" : "MYRESULT",          "value" : "DYNAMIK JSON.stringify(JSON.parse(\"$Result\")[0])"},
             {"variable" : "websocketMsgs",     "value" : "DYNAMIK ($websocketMsgs)+1"},
-            {"variable" : "PlayerID",          "value" : "DYNAMIK ( (\"$Result\" != \"\") && (JSON.parse(\"$Result\")[0].method == \"Player.OnStop\") )                                                                                                                      ? 0 : \"$PlayerID\""},
+            {"variable" : "PlayerID",          "value" : "DYNAMIK ( (\"$Result\" != \"\") && (JSON.parse(\"$Result\")[0].method == \"Player.OnStop\") )                                                                                                                      ? -1 : \"$PlayerID\""},
             {"variable" : "PlayerID",          "value" : "DYNAMIK ( (\"$Result\" != \"\") && (JSON.parse(\"$Result\")[0].method != undefined) && (JSON.parse(\"$Result\")[0].method != \"Player.OnStop\") &&(JSON.parse(\"$Result\")[0].method.substr(0,7) == \"Player.\") ) ? JSON.parse(\"$Result\")[0].params.data.player.playerid  : \"$PlayerID\""},
             {"variable" : "PlayingID",         "value" : "DYNAMIK ( (\"$Result\" != \"\") && (JSON.parse(\"$Result\")[0].method != undefined) && (JSON.parse(\"$Result\")[0].method.substr(0,7) == \"Player.\") && (JSON.parse(\"$Result\")[0].id != \"KodiListener\") )     ? JSON.parse(\"$Result\")[0].params.data.item.id:\"$PlayingID\""},
             {"variable" : "PlayingType",       "value" : "DYNAMIK ( (\"$Result\" != \"\") && (JSON.parse(\"$Result\")[0].method != undefined) && (JSON.parse(\"$Result\")[0].method.substr(0,7) == \"Player.\") && (JSON.parse(\"$Result\")[0].id != \"KodiListener\") )     ? JSON.parse(\"$Result\")[0].params.data.item.type:\"$PlayingType\""},          
@@ -178,7 +178,7 @@
             {"test":true, "then":"__FILLINFO", "or":""},
             {"test":"DYNAMIK ( \"$Result\" != \"\") && (JSON.parse(\"$Result\")[0].method == \"Player.OnResume\"  || JSON.parse(\"$Result\")[0].method == \"Player.OnPlay\" || JSON.parse(\"$Result\")[0].method == \"Player.OnAVStart\" || JSON.parse(\"$Result\")[0].method == \"Player.OnPause\") &&  $PlayerID == 0 ", "then":"__Audioplayer", "or":""},
             {"test":"DYNAMIK ( \"$Result\" != \"\") && (JSON.parse(\"$Result\")[0].method == \"Player.OnResume\"  || JSON.parse(\"$Result\")[0].method == \"Player.OnPlay\" || JSON.parse(\"$Result\")[0].method == \"Player.OnAVStart\" || JSON.parse(\"$Result\")[0].method == \"Player.OnPause\") &&  $PlayerID == 1 ", "then":"__Videoplayer", "or":""},
-            {"test":"DYNAMIK ( \"$Result\" != \"\") && JSON.parse(\"$Result\")[0].method == \"Player.OnStop\"", "then":"__SetStopped", "or":""},
+            {"test":"DYNAMIK ( \"$Result\" != \"\") && JSON.parse(\"$Result\")[0].method == \"Player.OnStop\"", "then":"__SetStopped", "or":"__GetPlayerID"},
             {"test":"DYNAMIK ( \"$Result\" != \"\") && JSON.parse(\"$Result\")[0].method == \"System.OnQuit\"", "then":"POWER OFF", "or":""},
             {"test":"DYNAMIK (\"$websocketMsgs\"==\"1\" && \"$POWER\"!=\"OFF\")", "then":"__StartupMessage", "or":""}
          ]
