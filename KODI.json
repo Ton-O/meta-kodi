@@ -684,8 +684,9 @@
          "__SYNCSUB":
             {"label":"",                                 
             "type":"webSocket",
-            "command":"{\"connection\": \"ws://$MyKODIIp:$RPCPort\", \"message\":{\"jsonrpc\":\"2.0\",\"method\":\"Input.ExecuteAction\",\"params\":{ \"action\": \"subtitledelay\"},\"id\":\"\"}}"
-            },          
+            "command":"{\"connection\": \"ws://$MyKODIIp:$RPCPort\", \"message\":{\"jsonrpc\":\"2.0\",\"method\":\"Input.ExecuteAction\",\"params\":{ \"action\": \"subtitledelay\"},\"id\":\"\"}}",
+            "evalwrite":[{"variable":"CacheEmpty","value":1}]
+         },          
          "SubtitleDelayMinus":
             {"label":"",                                 
             "type":"webSocket",
@@ -716,7 +717,7 @@
             {"label":"",
             "type":"webSocket",
             "command":"{\"connection\": \"ws://$MyKODIIp:$RPCPort\", \"message\":{\"jsonrpc\":\"2.0\",\"method\":\"Input.back\",\"id\":\"\"}}",
-            "evalwrite":[{"variable":"CacheBuilt","value":"0"}] 
+            "evalwrite":[{"variable":"CacheEmpty","value":1}] 
             },
          "MENU":
             {"label":"",
@@ -724,8 +725,9 @@
             "command":"{}",
             "evalwrite":[{"variable":"CheckWindow_ID","value":"$Fullscreen_ID"},
                {"variable":"CURSOR","value":"Menu"},
-               {"variable":"ReturnMenu","value":"__OSD"}               
-               ],  
+               {"variable":"ReturnMenu","value":"__OSD"},  
+               {"variable":"CacheEmpty","value":1}               
+            ],  
             "evaldo":[{"test":true,"then":"__CheckEnvir"}]   
          },
          "__OSD":
