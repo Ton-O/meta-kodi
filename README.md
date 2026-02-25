@@ -98,3 +98,6 @@ If you feel this annoying, you can switch off thumbnais with the switch "Thumbna
 
 To-Do:
 - Fix 7 levels limit
+
+## History
+2025-02-25 Added the METAREINIT functionality to handle restafrts of Meta plus.

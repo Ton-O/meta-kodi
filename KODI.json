@@ -1,7 +1,7 @@
 { "name":"KODIPlayer",
    "manufacturer":"Tono",
    "type":"MEDIAPLAYER",
-   "version":31,
+   "version":32,
    "variables": {"MYRESULT":""}, 
    "discover":{
      "welcomeheadertext":"Choose your KODI Instance",
@@ -14,7 +14,7 @@
       "name": "KODIPROD",
       "type":"MEDIAPLAYER",
       "manufacturer": "Tono",
-      "version": 31,
+      "version": 32,
       "variables":{
          "PoweredOn":0,
          "IPV6": "",
@@ -229,6 +229,11 @@
                {"test":true,"then":"__GetJustASongid", "or":""} 
             ]
          },
+        "__METAREINIT": {"label": "", "type":"static", "command":"",
+            "evaldo":[{"test":true,"then":"___InitSettings", "or":""},
+                      {"test":true,"then":"__GetPlayerID", "or":""}
+                     ]
+         },     
          "__RESTART": 
             {"type":"wol", 
             "command":"$MyKODIMAC", "queryresult":"", 
@@ -241,18 +246,18 @@
                {"variable":"SetShutdownCommand","value":"\"Application.quit\""}
    
             ],
-            "evaldo":[{"test":true,"then":"__INITIALISE", "or":""},
-                      {"test":true,"then":"___InitSettings", "or":""},
+            "evaldo":[{"test":true,"then":"___InitSettings", "or":""},
                       {"test":true,"then":"__GetPlayerID", "or":""}
                      ]
          }, 
-         "POWER ON": {"type":"static", "command":".", 
+         "POWER ON": {"type":"static", "command":"", 
             "evalwrite":[
                {"variable":"MyStatus","value":"Connecting to KODI-device..."},
                {"variable":"PoweredOn","value":1},
                {"variable":"websocketMsgs","value":0} 
             ],
-            "evaldo":[{"test":true,"then":"__RESTART", "or":""}]
+            "evaldo":[{"test":true,"then":"__INITIALISE", "or":""},
+                      {"test":true,"then":"__RESTART", "or":""}]
          },
          "__Audioplayer":
          {"label":"",
@@ -382,7 +387,7 @@
             "type":"webSocket",
             "command":"{\"connection\": \"ws://$MyKODIIp:$RPCPort\",\"message\":{\"jsonrpc\":\"2.0\",\"method\":\"Player.PlayPause\",\"id\":\"\",\"params\":{\"playerid\":$PlayerID}}}"
          },
-         "__INITIALISE": {"label": "", "type":"static", "command":"."
+         "__INITIALISE": {"label": "", "type":"static", "command":""
          },
          "__CheckPlaying":
             {"label":"",      
